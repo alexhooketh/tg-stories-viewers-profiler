@@ -62,7 +62,13 @@ async def fetch_highlight_viewers():
                 offset = vr.next_offset
 
             story_viewers[sid] = viewers
-            print(t("Story {id}: {viewer_count} viewers", id=sid, viewer_count=len(viewers)))
+            print(
+                t(
+                    "Story {id}: {viewer_count} viewers",
+                    id=sid,
+                    viewer_count=len(viewers),
+                )
+            )
 
             # Sort viewers chronologically (oldest first) by the view date
             viewers.sort(key=lambda v: v[3])

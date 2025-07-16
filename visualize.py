@@ -26,7 +26,9 @@ def parse_args() -> tuple[str, int, list[tuple[dt.datetime, str]]]:
         "--mark",
         metavar="DATETIME|LABEL",
         action="append",
-        help=t("Landmark in the form '2024-07-16 12:00|Something happened' — can be repeated"),
+        help=t(
+            "Landmark in the form '2024-07-16 12:00|Something happened' — can be repeated"
+        ),
     )
 
     args = parser.parse_args()
@@ -38,7 +40,10 @@ def parse_args() -> tuple[str, int, list[tuple[dt.datetime, str]]]:
                 date_str, label = spec.split("|", 1)
             except ValueError:
                 raise SystemExit(
-                    t("Invalid landmark '{spec}'. Expected '<datetime>|<label>'.", spec=spec)
+                    t(
+                        "Invalid landmark '{spec}'. Expected '<datetime>|<label>'.",
+                        spec=spec,
+                    )
                 )
             try:
                 when = dt.datetime.fromisoformat(date_str.strip())
@@ -261,7 +266,9 @@ def plot_results(
             else:
                 hours, rem = divmod(lat, 3600)
                 mins = rem // 60
-                annotation = t("view {hours}h {mins}m after publ.", hours=hours, mins=mins)
+                annotation = t(
+                    "view {hours}h {mins}m after publ.", hours=hours, mins=mins
+                )
             y_pos = min(y_val + 0.05, 1.15)  # keep label inside axis
             ax.text(
                 idx,
@@ -285,12 +292,16 @@ def plot_results(
                 x_pos = len(creation_times) - 0.5
             else:
                 x_pos = len(creation_times) - 0.5  # fallback
-                for idx, (start, end) in enumerate(zip(creation_times[:-1], creation_times[1:])):
+                for idx, (start, end) in enumerate(
+                    zip(creation_times[:-1], creation_times[1:])
+                ):
                     if start <= when <= end:
                         if end == start:
                             frac = 0.5
                         else:
-                            frac = (when - start).total_seconds() / (end - start).total_seconds()
+                            frac = (when - start).total_seconds() / (
+                                end - start
+                            ).total_seconds()
                         x_pos = idx + frac
                         break
 
@@ -301,7 +312,7 @@ def plot_results(
                 1.15,
                 label,
                 rotation=0,
-                ha="left",    # align left for consistency with latency annotation
+                ha="left",  # align left for consistency with latency annotation
                 va="bottom",
                 fontsize=8,
                 color="red",
@@ -315,12 +326,14 @@ def plot_results(
     ax.set_xlabel(t("Telegram Story (creation time)"))
 
     ax.set_yticks([0, 0.5, 0.75, 1])
-    ax.set_yticklabels([
-        t("not viewed"),
-        t("swiped past"),
-        t("partially watched"),
-        t("likely watched fully"),
-    ])
+    ax.set_yticklabels(
+        [
+            t("not viewed"),
+            t("swiped past"),
+            t("partially watched"),
+            t("likely watched fully"),
+        ]
+    )
     ax.set_ylim(-0.1, 1.2)
 
     # Adjust x-axis limits to include all landmark lines and bars
@@ -342,7 +355,9 @@ def plot_results(
     fig.text(
         0.5,
         0.01,
-        t("Color indicates latency between story publication and user's view: green = viewed quickly, yellow = moderate, red = viewed after long delay. Empty = not viewed."),
+        t(
+            "Color indicates latency between story publication and user's view: green = viewed quickly, yellow = moderate, red = viewed after long delay. Empty = not viewed."
+        ),
         ha="center",
         fontsize=8,
     )
@@ -360,7 +375,7 @@ def main():
 
     x_labels, y_values, latencies, full_name, username, creation_times = build_dataset(
         results_dir, user_id
-    )
+    )  # last part of the title and default PNG name
 
     output_path = results_dir / f"{user_id}.png"
     plot_results(

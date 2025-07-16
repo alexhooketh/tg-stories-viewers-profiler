@@ -55,4 +55,4 @@ def t(message: str, **kwargs) -> str:  # noqa: D401  (simple wrapper)
         except Exception:
             # Fall back to the unformatted template if substitution fails
             return template
-    return template 
+    return template
