@@ -1,4 +1,3 @@
-import sys
 import csv
 import datetime as dt
 from pathlib import Path
@@ -163,7 +162,7 @@ def build_dataset(results_dir: Path, target_user_id: int):
         dt_time = sv.get(target_user_id)
         user_views.append(dt_time)
     # Capture name/username from any CSV row (optional)
-    if CSV_ROW := next((row for sv in story_views for uid, row in []), None):
+    if _CSV_ROW := next((row for sv in story_views for uid, row in []), None):
         pass  # placeholder – kept for clarity but unused
 
     # Determine latencies and y values

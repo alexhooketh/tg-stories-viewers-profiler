@@ -209,3 +209,4 @@ __marimo__/
 *.session
 results/*
 !results/README.md
+.DS_Store
